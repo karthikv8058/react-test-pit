@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import Button from '../../Components/Button';
-import Screen2 from '../Screen2';
 import './style.css';
 
-class Screen1 extends Component {
+class Screen2 extends Component {
   constructor() {
     super();
     this.state = {
@@ -14,11 +13,15 @@ class Screen1 extends Component {
 
   render() {
     return (
-      <div className="align-self-center">
-        <Button class="btn-screen1" title="Register"/>
-        <Screen2/>
+      <div className="row">
+        <div className="col-sm-4">
+          for uploading img
+        </div>
+        <div className="col-sm-8">
+          for form data
+        </div>
       </div>
     );
   }
 }
-export default Screen1;
+export default Screen2;

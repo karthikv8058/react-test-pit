@@ -14,7 +14,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className="">
+      <div className="d-flex h-100vh justify-content-center">
         <Screen1/>
       </div>
     );
