@@ -3,6 +3,7 @@ import { render } from 'react-dom';
 import Button from '../../Components/Button';
 import Screen2 from '../Screen2';
 import './style.css';
+import history from '../../history';
 
 class Screen1 extends Component {
   constructor() {
@@ -14,9 +15,10 @@ class Screen1 extends Component {
 
   render() {
     return (
-      <div className="align-self-center">
-        <Button class="btn-screen1" title="Register"/>
-        <Screen2/>
+      <div className="d-flex h-100vh justify-content-center">
+        <div className="align-self-center">
+          <button className="btn-screen1" onClick={() => history.push('/Screen2')}>Register</button>
+        </div>
       </div>
     );
   }

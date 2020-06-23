@@ -1,3 +1,9 @@
+h1, p {
+  font-family: Lato;
+}
+.h-100vh{
+  height: 100vh;
+}
 .btn-screen1{
   background-color: #6095c9;
   border: 1px solid #557089;

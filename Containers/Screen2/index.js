@@ -13,7 +13,7 @@ class Screen2 extends Component {
 
   render() {
     return (
-      <div className="row">
+      <div className="row text-dark">
         <div className="col-sm-4">
           for uploading img
         </div>

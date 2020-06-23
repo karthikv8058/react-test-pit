@@ -1,24 +1,15 @@
-import React, { Component } from 'react';
-import { render } from 'react-dom';
-import Screen1 from './Containers/Screen1';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
+
 import './style.css';
 import 'bootstrap/dist/css/bootstrap.css';
 
-class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      name: 'React'
-    };
-  }
+import App from './App';
 
-  render() {
-    return (
-      <div className="d-flex h-100vh justify-content-center">
-        <Screen1/>
-      </div>
+ReactDOM.render(    
+    <Router> 
+        <App />
+    </Router>,
+    document.getElementById('root')
     );
-  }
-}
-
-render(<App />, document.getElementById('root'));
