@@ -14,11 +14,20 @@
     border:solid 5px #294969;
 }
 .example-thumb{
+    padding-top:24px;
+    position: relative;
+}
+.example-thumb::after{
+    position: absolute;
+    top:-50%;
+    left: 0%;
+    display: block;
+    content: '';
+    width: 10px;
+    height:50px;
     background-color: #6095c9;
     border: #294969 solid 1px;
-    padding: 20px 1px;
-    color: #fff;
 }
 .example-thumb.example-thumb-0{
-    top: -29px;
+    top:7px;
 } 

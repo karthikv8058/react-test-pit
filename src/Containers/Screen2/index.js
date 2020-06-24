@@ -25,10 +25,11 @@ class Screen2 extends Component {
 
   Thumb = (props, state) => {
     return <div {...props}>
-      {state.valueNow<20&&'13-19'}
-      {state.valueNow<30&&'20-29'}
-      {state.valueNow<45&&'30-45'}
+      {state.valueNow<20&&state.valueNow>13&&'13-19'}
+      {state.valueNow<30&&state.valueNow>20&&'20-29'}
+      {state.valueNow<45&&state.valueNow>30&&'30-45'}
       {state.valueNow>45&&'45 & Above'}
+     
     </div>;
   }
   
@@ -58,6 +59,7 @@ class Screen2 extends Component {
                   <div className="form-group row mb-3 mt-5">
                       <div className="col-3">
                           <span>Age</span>
+                          <span>{this.state.curVal}</span>
                       </div>
                       <div className="col-9">
                         <ReactSlider
