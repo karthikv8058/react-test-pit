@@ -1,11 +1,24 @@
 .btn-upload-photo{
-    width: 250px;
+    width: 80%;
     height: 250px;
     background-color: #6095c9;
     border: #294969 solid 1px;
     color: rgb(221, 221, 221);
+    margin: 0 auto;
 }
 .text-input-form{
     background-color: #f1f1ec;
     border: #294969 solid 1px;
 }
+.example-track{
+    border:solid 5px #294969;
+}
+.example-thumb{
+    background-color: #6095c9;
+    border: #294969 solid 1px;
+    padding: 20px 1px;
+    color: #fff;
+}
+.example-thumb.example-thumb-0{
+    top: -29px;
+} 
