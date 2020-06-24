@@ -4,7 +4,6 @@ import Button from '../../Components/Button';
 import {withRouter} from 'react-router-dom'
 import Screen2 from '../Screen2';
 import './style.css';
-import history from '../../history';
 
 class Screen1 extends Component {
   constructor() {
