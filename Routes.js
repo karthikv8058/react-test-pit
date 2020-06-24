@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Switch, Route ,history} from "react-router-dom";
 
 import Screen1 from './Containers/Screen1';
 import Screen2 from './Containers/Screen2';

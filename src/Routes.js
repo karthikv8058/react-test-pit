@@ -3,7 +3,7 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 import Screen1 from './Containers/Screen1';
 import Screen2 from './Containers/Screen2';
-
+import history from './history';
 
 export default class Routes extends Component {
     render() {

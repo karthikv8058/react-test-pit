@@ -1,0 +1,11 @@
+.btn-upload-photo{
+    width: 250px;
+    height: 250px;
+    background-color: #6095c9;
+    border: #294969 solid 1px;
+    color: rgb(221, 221, 221);
+}
+.text-input-form{
+    background-color: #f1f1ec;
+    border: #294969 solid 1px;
+}
