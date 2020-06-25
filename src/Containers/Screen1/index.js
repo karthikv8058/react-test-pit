@@ -14,11 +14,15 @@ class Screen1 extends Component {
     };
   }
 
+  handleButtonClick = () =>{
+    this.props.history.push('/Screen2');
+  }
+
   render() {
     return (
       <div className="d-flex h-100vh justify-content-center">
         <div className="align-self-center">
-          <button className="btn-screen1" onClick={() => this.props.history.push('/Screen2')}>Register</button>
+          <Button handleButtonClick={this.handleButtonClick} title="Register"/>
         </div>
       </div>
     );

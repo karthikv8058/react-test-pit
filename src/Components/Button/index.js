@@ -5,7 +5,7 @@ import './style.css';
 const Button = (props) =>{
   return(
     <div>
-      <button className={props.class}>{props.title}</button>
+      <button onClick={props.handleButtonClick} className="btn-screen">{props.title}</button>
     </div>
   );
 }
