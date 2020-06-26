@@ -224,7 +224,7 @@ class Screen2 extends Component {
               {isFileUpload?'Change':'Upload'} <br/>
               Your Photo
             </button>
-            {console.log('log :',this.props)
+            {console.log('log :',this.props.user)
             }
           </div>
           <div className="col-md-8 mt-5 mt-md-0">

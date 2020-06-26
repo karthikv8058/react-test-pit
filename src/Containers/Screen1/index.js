@@ -28,4 +28,4 @@ class Screen1 extends Component {
     );
   }
 }
-export default withRouter(Screen1);
+export default Screen1;
