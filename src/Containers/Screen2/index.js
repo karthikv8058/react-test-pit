@@ -5,11 +5,13 @@ import './style.css';
 import ReactSlider from 'react-slider';
 import Screen3 from '../Screen3';
 import history from '../../history';
-import {withRouter} from 'react-router-dom'
+import {withRouter} from 'react-router-dom';
+import { connect } from "react-redux";
+import {addUser} from '../../actions/actions';
 
 class Screen2 extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.fnameRef=createRef();
     this.emailRef=createRef();
@@ -182,7 +184,9 @@ class Screen2 extends Component {
 
   handleSubmit = (e) =>{
     e.preventDefault();
-    this.props.history.push('/Screen3',{stateProps:this.state});
+
+    this.props.history.push('/Screen3');
+    this.props.addUser(this.state);
   }
 
   render() {
@@ -220,7 +224,8 @@ class Screen2 extends Component {
               {isFileUpload?'Change':'Upload'} <br/>
               Your Photo
             </button>
-            
+            {console.log('log :',this.props)
+            }
           </div>
           <div className="col-md-8 mt-5 mt-md-0">
             <div>
@@ -411,4 +416,20 @@ class Screen2 extends Component {
     );
   }
 }
-export default withRouter(Screen2);
+
+const mapStateToProps = (state) => {
+  return{
+    user:state.user,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return{
+    addUser:(params)=>dispatch(addUser(params)),
+  }
+}
+
+// const ConnectedComponent = connect(mapStateToProps,mapDispatchToProps)(Screen2);
+// export default withRouter(ConnectedComponent);
+export default connect(mapStateToProps,mapDispatchToProps)(Screen2);
+

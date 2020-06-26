@@ -7,7 +7,7 @@ class Screen3 extends Component {
   constructor() {
     super();
 
-    this.fileUploadRef=createRef();
+    //this.fileUploadRef=createRef();
     
     this.state = {
       parentState:{}
@@ -15,36 +15,36 @@ class Screen3 extends Component {
 
   }
 
-  componentWillMount(){
-      this.setState({
-        parentState:this.props.location.state.stateProps,
-      });    
-  }
+  // componentWillMount(){
+  //     this.setState({
+  //       parentState:this.props.location.state.stateProps,
+  //     });    
+  // }
 
-  fileUploadAction = () =>
-  this.fileUploadRef.current.click();
+  // fileUploadAction = () =>
+  // this.fileUploadRef.current.click();
   
-  fileUploadInputChange = (e) =>{
+  // fileUploadInputChange = (e) =>{
     
-    e.preventDefault(); 
-   let reader = new FileReader();
-   let file = e.target.files[0];
+  //   e.preventDefault(); 
+  //  let reader = new FileReader();
+  //  let file = e.target.files[0];
 
-   reader.onloadend = () => {
-     this.setState({
-       file: file,
-       imagePreviewUrl: reader.result,
-       isFileUpload:true,
-     });
-   }
+  //  reader.onloadend = () => {
+  //    this.setState({
+  //      file: file,
+  //      imagePreviewUrl: reader.result,
+  //      isFileUpload:true,
+  //    });
+  //  }
 
-  reader.readAsDataURL(file)
-    //this.setState({fileUploadState:e.target.value});
-  }
+  // reader.readAsDataURL(file)
+  //   //this.setState({fileUploadState:e.target.value});
+  // }
   
 
   render() {
-    let {parentState}=this.state;
+    //let {parentState}=this.state;
     //console.log('parentState:',parentState);
     
     return (
@@ -52,10 +52,10 @@ class Screen3 extends Component {
         <div className="row text-dark">
           <div className="col-md-4 text-center border-right border-primary">
           <input type="file" hidden ref={this.fileUploadRef} onChange={this.fileUploadInputChange}/>
-            <button style={{backgroundImage:parentState.isFileUpload&&`url(${parentState.imagePreviewUrl})`}} onClick={this.fileUploadAction} className="btn btn-primary btn-upload-photo mx-auto">
+            {/* <button style={{backgroundImage:parentState.isFileUpload&&`url(${parentState.imagePreviewUrl})`}} onClick={this.fileUploadAction} className="btn btn-primary btn-upload-photo mx-auto">
               {parentState.isFileUpload?'Change':'Upload'} <br/>
               Your Photo
-            </button>
+            </button> */}
           </div>
           <div className="col-md-8 mt-5 mt-md-0">
             <div>
