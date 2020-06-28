@@ -1,6 +1,7 @@
 import React from 'react';
 import './style.css';
 import 'bootstrap/dist/css/bootstrap.css';
+import { hot } from 'react-hot-loader/root';
 
 import Routes from './Routes';
 
@@ -13,4 +14,4 @@ function App() {
   );
 }
 
-export default App;
+export default hot(App);

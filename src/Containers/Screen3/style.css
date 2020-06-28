@@ -10,6 +10,16 @@
 .bg-theme{
     background-color: #6095c9!important;
 }
+.text-theme{
+  color: #80bed7!important;
+}
+.text-theme-profile{
+  color: #80bed7!important;
+  background-color: transparent;
+  border: none;
+  display: inline-block;
+  text-align: center;
+}
 .btn-upload-photo{
     width: 80%;
     height: 250px;
@@ -124,3 +134,6 @@
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
   } 
+  .profile-text p{
+    font-size: 18px;
+  }

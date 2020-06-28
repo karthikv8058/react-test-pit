@@ -7,13 +7,18 @@ import Screen3 from '../Screen3';
 import history from '../../history';
 import {withRouter} from 'react-router-dom';
 import { connect } from "react-redux";
-import {addUser} from '../../actions/actions';
+import {
+  addUser,
+  addUserPic,
+  addUserAddress,
+} from '../../actions/actions';
 
 class Screen2 extends Component {
   constructor(props) {
     super(props);
 
     this.fnameRef=createRef();
+    this.lnameRef=createRef();
     this.emailRef=createRef();
     this.telRef=createRef();
     this.stateRef=createRef();
@@ -22,55 +27,96 @@ class Screen2 extends Component {
     this.interestsRef=createRef();
     this.fileUploadRef=createRef();
     this.subscribeRef=createRef();
+    this.home1Ref=createRef();
+    this.home2Ref=createRef();
+    this.company1Ref=createRef();
+    this.company2Ref=createRef();
 
     this.state = {
-      name: 'React',
       min:19,
       step:10,
       max:49,
-      curVal:19,
+
+      ageVal:19,
       fname:'',
       lname:'',
       age:0,
+      email:'',
+      tel:'',
       address:'',
+      addressHome1:'',
+      addressHome2:'',
+      addressCompany1:'',
+      addressCompany2:'',
+      states:'',
+      country:'',
+      interestsValues:'',
+
       fnameError:false,
       emailError:false,
       telError:false,
       stateError:false,
       countryError:false,
       addressError:false,
+      home1Error:false,
+      company1Error:false,
+
       fnameErrorText:'',
       emailErrorText:'',
       telErrorText:'',
       stateErrorText:'',
       countryErrorText:'',
       addressErrorText:'',
+      home1ErrorText:'',
+      company1ErrorText:'',
+
       interests:[],
       imagePreviewUrl:'',
       file:'',
+
       isFileUpload:false,
       isSubscribe:false,
+      isPageLoading:true,
+      isInterest:true,
+
+      errorCount:0,
     };
   }
 
-  handleNameOnBlur=()=>{
+   handleNameOnBlur = () =>{
+
+    let regexname=/^[a-zA-Z]{1,20}$/gm;
     if(this.fnameRef.current.value=='')
       {
         this.setState({
           fnameError:true,
           fnameErrorText:'First Name is required',
+          errorCount:this.state.errorCount++,
         });
-      }
-      else{
+      }else if(!regexname.test(this.fnameRef.current.value)){
+        this.setState({
+          fnameError:true,
+          fnameErrorText:'Not more than 20 alphabet',
+          errorCount:this.state.errorCount++,
+        });
+        this.fnameRef.current.value='';
+      }else{
         this.setState({
           fnameError:false,
           fnameErrorText:'',
         });
       }
+      console.log('Error in fn',this.state.errorCount);
+      
   }
 
   handleNameOnChnage = () =>{
-    let regexname=/^[a-zA-Z]{1,20}$/gm;
+
+    this.setState({
+      isPageLoading:false,
+    });    
+
+    let regexname=/^[a-zA-Z]{0,20}$/gm;
 
     if(!regexname.test(this.fnameRef.current.value)){
       this.setState({
@@ -83,39 +129,248 @@ class Screen2 extends Component {
         fname:this.fnameRef.current.value,
         fnameError:false,
         fnameErrorText:'',
-      })
+      });
     }
+
+  }
+
+  handleLnameOnChnage = () =>{
+
+    this.setState({
+      isPageLoading:false,
+    });    
+
+   
+      this.setState({
+        lname:this.lnameRef.current.value,
+      });
+ 
+  }
+
+  handleEmailOnBlur=()=>{
+
+    let regexmail=/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/gm;
+    if(this.emailRef.current.value=='')
+      {
+        this.setState({
+          emailError:true,
+          emailErrorText:'Mail ID is required',
+          errorCount:this.state.errorCount++,
+        });
+      }else if(!regexmail.test(this.emailRef.current.value)){
+        this.setState({
+          emailError:true,
+          emailErrorText:'Invalid Mail ID',
+          errorCount:this.state.errorCount++,
+        });
+        this.emailRef.current.value='';
+      }
+      else{
+        this.setState({
+          emailError:false,
+          emailErrorText:'',
+        });
+      }
+  }
+
+  handleEmailOnChnage = () =>{
+
+    this.setState({
+      isPageLoading:false,
+      email:this.emailRef.current.value,
+      emailError:false,
+      emailErrorText:'',
+    });
+  
+  }
+
+  handleTelOnBlur =()=>{
+
+    let regextel=/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/gm;
+
+    if(this.telRef.current.value=='')
+      {
+        this.setState({
+          telError:true,
+          telErrorText:'Phone Number is required',
+          errorCount:this.state.errorCount++,
+        });
+      }else if(!regextel.test(this.telRef.current.value)){
+        this.setState({
+          telError:true,
+          telErrorText:'Invalid Phone Number',
+          errorCount:this.state.errorCount++,
+        });
+        this.telRef.current.value='';
+      }
+      else{
+        this.setState({
+          telError:false,
+          telErrorText:'',
+        });
+      }
+  }
+
+  handleTelOnChnage = () =>{
+
+    this.setState({
+      isPageLoading:false,
+      tel:this.telRef.current.value,
+      telError:false,
+      telErrorText:'',
+    });
 
   }
 
   handleAddressOnChnage = () =>{
-    console.log('Address:',this.addressRef.current.value);
+    this.setState({
+      isPageLoading:false,
+      address:this.addressRef.current.value,
+    });
     if(this.addressRef.current.value==''){
       this.setState({
         addressError:true,
         addressErrorText:'Address is required',
-        address:'',
-      });
+      })
+    } else if(this.addressRef.current.value=='Home'){
+      this.handleHome1OnBlur();
+      this.handleHome1OnChange();
+      this.handleHome2OnChange();
     }else{
+      this.handleCompany1OnBlur();
+      this.handleCompany1OnChange();
+      this.handleCompany2OnChange();
+    } 
+    
+  }
+
+  handleHome1OnBlur = () => {
+    if(this.home1Ref.current.value==''){
       this.setState({
-        addressError:false,
-        addressErrorText:'',
-        address:this.addressRef.current.value,
+        home1Error:true,
+        home1ErrorText:'This field is required',
       });
+    } else {
+      this.setState({
+        addressHome1:this.home1Ref.current.value,
+        home1Error:false,
+        home1ErrorText:'',
+      })
     }
   }
 
-  handleOnChnage = (values) =>{
+  handleHome1OnChange = () => {
+
+    this.setState({
+      isPageLoading:false,
+      addressHome1:this.home1Ref.current.value,
+      home1Error:false,
+      home1ErrorText:'',
+    });
+  }
+
+  handleHome2OnChange = () => {
+
+    console.log('handleHome2OnChange');
+    
+    this.setState({
+      isPageLoading:false,
+      addressHome2:this.home2Ref.current.value,
+    });
+  }
+
+  // ************************Company******************************
+
+  handleCompany1OnBlur = () => {
+    if(this.company1Ref.current.value==''){
+      this.setState({
+        company1Error:true,
+        company1ErrorText:'This field is required',
+      });
+    } else {
+      this.setState({
+        addressCompany1:this.company1Ref.current.value,
+        company1Error:false,
+        company1ErrorText:'',
+      })
+    }
+  }
+
+  handleCompany1OnChange = () => {
+
+    this.setState({
+      isPageLoading:false,
+      addressCompany1:this.company1Ref.current.value,
+      compay1Error:false,
+      compay1ErrorText:'',
+    });
+  }
+
+  handleCompany2OnChange = () => {
+
+    this.setState({
+      isPageLoading:false,
+      addressCompany2:this.company2Ref.current.value,
+    });
+  }
+
+  // ******************************************************
+  
+
+  handleCountryOnChnage = () =>{
+
+    if(this.countryRef.current.value==''){
+      this.setState({
+        countryError:true,
+        countryErrorText:'Country is required',
+      });
+    }else{
+      this.setState({
+        countryError:false,
+        countryErrorText:'',
+        country:this.countryRef.current.value,
+      });
+    }
+    
+    
+  }
+
+  handleStateOnChnage = () =>{
+
+    if(this.stateRef.current.value==''){
+      this.setState({
+        stateError:true,
+        stateErrorText:'State is required',
+
+      });
+    }else{
+      this.setState({
+        stateError:false,
+        stateErrorText:'',
+        states:this.stateRef.current.value,
+      });
+    }
+    console.log('states:',this.state.states);
+  }
+
+  handleOnAgeChnage = (values) =>{
     console.log('changed',values);
     this.setState({
-      curVal:values,
+      ageVal:values,
     })
   }
 
-  handleInterestsonKeyDown = (e) =>{
-    // console.log('From input:',this.interestsRef.current.value);
+  handleInterestsonKeyUp = (e,interestsOldValues) =>{
+
+    this.setState({
+      isPageLoading:false,
+      isInterest:false,
+      interestsValues:interestsOldValues+e.key,
+    });
+
     const interests=this.state.interests;
     console.log('Key',e.key);
+
     if(e.key===','){
       this.interestsRef.current.value.split(",").map((item) =>  
         {
@@ -133,32 +388,40 @@ class Screen2 extends Component {
     }
   }
 
-  removeInterest = (i,e) =>{
-    e.preventDefault();
-    const interests=this.state.interests;
+  removeInterest = (i) =>{
+
+    
+    let interests=this.state.interests;
+
+    console.log('Interests:',interests);
+    console.log('Interests lists:',interests.toString());
+    
     interests.splice(i,1);
     this.setState({
-      interests
-    })
+      interests,
+      isInterest:true,
+      isPageLoading:false,
+    });
   }
   
   
   Thumb = (props, state) => {
+
     return <div className="d-block" {...props}>
       {state.valueNow<20&&state.valueNow>13&&'13-19'}
       {state.valueNow<30&&state.valueNow>20&&'20-29'}
       {state.valueNow<45&&state.valueNow>30&&'30-45'}
       {state.valueNow>40&&'45 & Above'}
-     
+
     </div>;
   }
+
   
   fileUploadAction = () =>
   this.fileUploadRef.current.click();
   
   fileUploadInputChange = (e) =>{
     
-    e.preventDefault(); 
    let reader = new FileReader();
    let file = e.target.files[0];
 
@@ -167,11 +430,14 @@ class Screen2 extends Component {
        file: file,
        imagePreviewUrl: reader.result,
        isFileUpload:true,
+       isPageLoading:false,
      });
-   }
 
-  reader.readAsDataURL(file)
-    //this.setState({fileUploadState:e.target.value});
+    console.log('imagePreviewUrl:',this.state.file);
+    
+   }
+  reader.readAsDataURL(file);
+
   }
 
   handleCheckBox = () =>{
@@ -183,49 +449,109 @@ class Screen2 extends Component {
   }
 
   handleSubmit = (e) =>{
+  
+
     e.preventDefault();
 
-    this.props.history.push('/Screen3');
-    this.props.addUser(this.state);
+    this.handleNameOnBlur();
+    this.handleEmailOnBlur();
+    this.handleTelOnBlur();
+    this.handleAddressOnChnage();
+    this.handleStateOnChnage();
+    this.handleCountryOnChnage();
+
+    if(this.state.errorCount==0){
+      this.props.history.push('/Screen3');
+      this.props.addUser(this.state);
+      this.setState({
+        isPageLoading:true,
+      });
+    }else{
+      console.log('Errors in page',this.errorCount);
+      
+    }
+
   }
 
+  UNSAFE_componentWillMount(){
+      this.setState({
+        imagePreviewUrl:this.props.user.imagePreviewUrl,
+        file:this.props.user.file,
+        fname:this.props.user.fname,
+        lname:this.props.user.lname,
+        email:this.props.user.email,
+        tel:this.props.user.tel,
+        country:this.props.user.country,
+        states:this.props.user.states,
+        address:this.props.user.address,
+        addressHome1:this.props.user.addressHome1,
+        addressHome2:this.props.user.addressHome2,
+        addressCompany1:this.props.user.addressCompany1,
+        addressCompany2:this.props.user.addressCompany2,
+        ageVal:this.props.user.ageVal,
+        // interests:this.props.user.interests,
+      })
+     
+    }
+
+
   render() {
+
     let {
-      fname,
-      address,
       fnameError,
       emailError,
       telError,
       stateError,
       countryError,
       addressError,
+      home1Error,
+      company1Error,
       fnameErrorText,
       emailErrorText,
       telErrorText,
       stateErrorText,
       countryErrorText,
       addressErrorText,
-      interests,
+      home1ErrorText,
+      company1ErrorText,
+      interestsValues,
+    }=this.state;
+
+    let {
+      fname,
+      address,
+      addressHome1,
+      addressHome2,
+      addressCompany1,
+      addressCompany2,
+      lname,
+      email,
+      states,
+      country,
+      tel,
       fileUploadState,
       imagePreviewUrl,
       file,
       isFileUpload,
       isSubscribe,
-    }=this.state;
+      interests,
+      ageVal,
+    }=
+    //  this.state.isPageLoading?this.props.user:
+     this.state;
 
-
+    interestsValues = this.state.isInterest?interests.toString():this.state.interestsValues    //console.log('interests in screen2 :',this.props.user.interests);
+    
     
     return (
       <div className="container p-5">
         <div className="row text-dark">
           <div className="col-md-4 text-center border-right border-primary">
           <input type="file" hidden ref={this.fileUploadRef} onChange={this.fileUploadInputChange}/>
-            <button style={{backgroundImage:isFileUpload&&`url(${imagePreviewUrl})`}} onClick={this.fileUploadAction} className="btn btn-primary btn-upload-photo mx-auto">
+            <button style={{backgroundImage:`url(${imagePreviewUrl})`}} onClick={this.fileUploadAction} className="btn btn-primary btn-upload-photo mx-auto">
               {isFileUpload?'Change':'Upload'} <br/>
               Your Photo
             </button>
-            {console.log('log :',this.props.user)
-            }
           </div>
           <div className="col-md-8 mt-5 mt-md-0">
             <div>
@@ -239,9 +565,15 @@ class Screen2 extends Component {
                             onBlur={this.handleNameOnBlur} 
                             onChange={this.handleNameOnChnage} 
                             ref={this.fnameRef} 
-                            value={this.fname}
+                            value={fname}
                             className=" px-3 text-input-form"/>
-                            <input type="text" placeholder="Last Name" className="ml-0 ml-xl-3 mt-3 mt-xl-0 px-3 text-input-form"/>
+                            <input 
+                            type="text" 
+                            value={lname}
+                            ref={this.lnameRef}
+                            onChange={this.handleLnameOnChnage} 
+                            placeholder="Last Name" 
+                            className="ml-0 ml-xl-3 mt-3 mt-xl-0 px-3 text-input-form"/>
                             <span className="text-danger">
                               {fnameError&&fnameErrorText}
                             </span>
@@ -259,7 +591,7 @@ class Screen2 extends Component {
                             min={this.state.min}
                             max={this.state.max}
                             step={this.state.step}
-                            onChange={(values)=>{this.handleOnChnage(values)}}
+                            onChange={(values)=>{this.handleOnAgeChnage(values)}}
                             renderThumb={this.Thumb}
                         />
                       </div>
@@ -271,8 +603,9 @@ class Screen2 extends Component {
                       <div className="col-9 mt-3 mt-sm-0">
                             <input type="text" placeholder="Email" 
                             onBlur={this.handleEmailOnBlur} 
-                            onChange={this.handleEmailOnChnage} 
-                            ref={this.emailRef} 
+                            onChange={this.handleEmailOnChnage}
+                            value={email} 
+                            ref={this.emailRef}
                             className=" px-3 text-input-form w-100"/>
                             <span className="text-danger">
                               {emailError&&emailErrorText}
@@ -287,7 +620,8 @@ class Screen2 extends Component {
                             <input type="text" placeholder="Tele" 
                             onBlur={this.handleTelOnBlur} 
                             onChange={this.handleTelOnChnage} 
-                            ref={this.telRef} 
+                            ref={this.telRef}
+                            value={tel} 
                             className=" px-3 text-input-form w-100"/>
                             <span className="text-danger">
                               {telError&&telErrorText}
@@ -304,7 +638,7 @@ class Screen2 extends Component {
                             ref={this.stateRef} 
                             className=" px-3 text-input-form w-100">
                               <option value="">Select State</option>
-                              <option value="Alaska">Alaska</option>
+                              <option value="Alaska" selected={states=='Alaska'&&'selected'}>Alaska</option>
                               </select>
                             <span className="text-danger">
                               {stateError&&stateErrorText}
@@ -321,7 +655,7 @@ class Screen2 extends Component {
                             ref={this.countryRef} 
                             className=" px-3 text-input-form w-100">
                               <option value="">Select Country</option>
-                              <option value="United States">United States</option>
+                              <option value="United States" selected={country=='United States'&&'selected'}>United States</option>
                               </select>
                             <span className="text-danger">
                               {countryError&&countryErrorText}
@@ -338,27 +672,50 @@ class Screen2 extends Component {
                             ref={this.addressRef} 
                             className=" px-3 text-input-form w-100 mb-3">
                               <option value="">Select Address</option>
-                              <option value="Home">Home</option>
-                              <option value="Company">Company</option>
+                              <option value="Home" selected={country=='Home'&&'selected'}>Home</option>
+                              <option value="Company" selected={country=='Company'&&'selected'}>Company</option>
                               </select>
                             
                             <div className={address=='Home'?'d-block':'d-none'}>
                             <input 
-                              type="text" placeholder="Home 1" 
+                              type="text" 
+                              ref={this.home1Ref} 
+                              onBlur={this.handleHome1OnBlur}
+                              onChange={this.handleHome1OnChange}
+                              value={addressHome1}
+                              placeholder="Address 1" 
                               className=" px-3 text-input-form"/>
                             <input 
-                            type="text" placeholder="Home 2" 
+                            type="text"
+                            ref={this.home2Ref}
+                            onChange={this.handleHome2OnChange} 
+                            placeholder="Address 2" 
+                            value={addressHome2}
                             className="ml-0 ml-xl-3 mt-3 mt-xl-0 px-3 text-input-form"/>
                             </div>
-
+                            <span className="text-danger">
+                              {home1Error&&home1ErrorText}
+                            </span>
                             <div className={address=='Company'?'d-block':'d-none'}>
                             <input 
-                              type="text" placeholder="Company 1" 
+                              type="text"
+                              ref={this.company1Ref}
+                              onBlur={this.handleCompany1OnBlur}
+                              onChange={this.handleCompany1OnChange}
+                              value={addressCompany1} 
+                              placeholder="Company Address 1" 
                               className=" px-3 text-input-form"/>
                             <input 
-                            type="text" placeholder="Company 2" 
+                            type="text"
+                            ref={this.company2Ref}
+                            onChange={this.handleCompany2OnChange}
+                            value={addressCompany2} 
+                            placeholder="Company Address 2" 
                             className="ml-0 ml-xl-3 mt-3 mt-xl-0 px-3 text-input-form"/>
                             </div>
+                            <span className="text-danger">
+                              {company1Error&&company1ErrorText}
+                            </span>
 
                             <span className="text-danger">
                               {/* {fnameError&&fnameErrorText} */}
@@ -374,9 +731,10 @@ class Screen2 extends Component {
                       </div>
                       <div className="col-9 mt-3 mt-sm-0">
                       <input type="text" placeholder="Type interests seperated by comma" 
-                            onBlur={this.handleInterestsOnBlur} 
-                            onKeyDown={this.handleInterestsonKeyDown} 
+                            // onBlur={this.handleInterestsOnBlur} 
+                            onKeyUp={(e)=>this.handleInterestsonKeyUp(e,interestsValues)} 
                             ref={this.interestsRef}
+                            value={interestsValues}
                             className=" px-3 text-input-form w-100"/>
 
                             <ul className="list-unstyled mt-3">
@@ -425,11 +783,15 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return{
-    addUser:(params)=>dispatch(addUser(params)),
+    addUser:(params)=>
+    dispatch(addUser(params)),
+    addUserPic:(params)=>
+    dispatch(addUserPic(params)),
+    addUserAddress:(params)=>
+    dispatch(addUserAddress(params)),
+    
   }
 }
 
-// const ConnectedComponent = connect(mapStateToProps,mapDispatchToProps)(Screen2);
-// export default withRouter(ConnectedComponent);
 export default connect(mapStateToProps,mapDispatchToProps)(Screen2);
 

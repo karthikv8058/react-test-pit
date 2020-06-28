@@ -1,11 +1,27 @@
-/* eslint-disable */
-export const ADD_USER = 'ADD_USER'; // action types
+
+import { 
+  ADD_USER,
+  ADD_USER_PIC,
+  ADD_USER_ADDRESS,
+} from './constants';
+
 
 export function addUser(params) {
-   console.log('addUser Action',params);
-  return
-     {     
-        type:ADD_USER,
-        params
-     }
+  return {
+    type: ADD_USER,
+    params
+  };
 }
+export function addUserPic(params) {
+  return {
+    type: ADD_USER_PIC,
+    params
+  };
+}
+export function addUserAddress(params) {
+  return {
+    type: ADD_USER_ADDRESS,
+    params
+  };
+}
+
