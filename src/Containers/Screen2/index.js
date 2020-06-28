@@ -231,20 +231,26 @@ class Screen2 extends Component {
       this.setState({
         addressError:true,
         addressErrorText:'Address is required',
-      })
+      });
     } else if(this.addressRef.current.value=='Home'){
       this.handleHome1OnBlur();
       this.handleHome1OnChange();
       this.handleHome2OnChange();
+      this.setState({
+        addressError:false,
+        addressErrorText:'',
+      });
     }else{
       this.handleCompany1OnBlur();
       this.handleCompany1OnChange();
       this.handleCompany2OnChange();
+      
     } 
     
   }
 
   handleHome1OnBlur = () => {
+    
     if(this.home1Ref.current.value==''){
       this.setState({
         home1Error:true,
@@ -391,7 +397,7 @@ class Screen2 extends Component {
   removeInterest = (i) =>{
 
     
-    let interests=this.state.interests;
+    const interests=this.state.interests;
 
     console.log('Interests:',interests);
     console.log('Interests lists:',interests.toString());
@@ -468,7 +474,9 @@ class Screen2 extends Component {
       });
     }else{
       console.log('Errors in page',this.errorCount);
-      
+      this.setState({
+        errorCount:0,
+      });
     }
 
   }
@@ -536,9 +544,7 @@ class Screen2 extends Component {
       isSubscribe,
       interests,
       ageVal,
-    }=
-    //  this.state.isPageLoading?this.props.user:
-     this.state;
+    }= this.state.isPageLoading?this.props.user:this.state;
 
     interestsValues = this.state.isInterest?interests.toString():this.state.interestsValues    //console.log('interests in screen2 :',this.props.user.interests);
     
@@ -692,10 +698,11 @@ class Screen2 extends Component {
                             placeholder="Address 2" 
                             value={addressHome2}
                             className="ml-0 ml-xl-3 mt-3 mt-xl-0 px-3 text-input-form"/>
-                            </div>
-                            <span className="text-danger">
+                             <span className="text-danger">
                               {home1Error&&home1ErrorText}
                             </span>
+                            </div>
+                           
                             <div className={address=='Company'?'d-block':'d-none'}>
                             <input 
                               type="text"
@@ -712,10 +719,11 @@ class Screen2 extends Component {
                             value={addressCompany2} 
                             placeholder="Company Address 2" 
                             className="ml-0 ml-xl-3 mt-3 mt-xl-0 px-3 text-input-form"/>
-                            </div>
-                            <span className="text-danger">
+                             <span className="text-danger">
                               {company1Error&&company1ErrorText}
                             </span>
+                            </div>
+                           
 
                             <span className="text-danger">
                               {/* {fnameError&&fnameErrorText} */}
